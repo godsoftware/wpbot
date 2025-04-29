@@ -7,7 +7,7 @@ from selenium.webdriver.edge.options import Options
 from selenium.webdriver.common.keys import Keys
 
 # Excel dosyası
-excel_path = r"C:\PycharmProjects\whatsappbot\output\cleaned_data.xlsx"
+excel_path = r"C:\PycharmProjects\whatsappbot\wpbot\output\cleaned_data.xlsx"
 df = pd.read_excel(excel_path)
 
 # Gönderilecek mesaj (URL encode edilir)
