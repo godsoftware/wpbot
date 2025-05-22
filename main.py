@@ -19,8 +19,8 @@ class BotApp(ctk.CTk):
         self.tabview = ctk.CTkTabview(self)
         self.tabview.pack(padx=20, pady=20, fill="both", expand=True)
 
-        self.input_tab = self.tabview.add("📥 Girdi ve Başlat")
-        self.response_tab = self.tabview.add("💬 AI Cevapları")
+        self.input_tab = self.tabview.add("Girdi ve Başlat")
+        self.response_tab = self.tabview.add(" AI Cevapları")
 
         self.build_input_tab()
         self.build_response_tab()
@@ -32,13 +32,13 @@ class BotApp(ctk.CTk):
         self.entry_count.insert(0, "10")
         self.entry_count.pack()
 
-        ctk.CTkLabel(self.input_tab, text="🔤 input.txt düzenle:").pack(pady=(20, 5))
+        ctk.CTkLabel(self.input_tab, text="input.txt düzenle:").pack(pady=(20, 5))
         self.input_textbox = ctk.CTkTextbox(self.input_tab, width=800, height=200)
         self.input_textbox.pack(padx=10)
         self.load_input_txt()
 
-        ctk.CTkButton(self.input_tab, text="💾 input.txt Kaydet", command=self.save_input_txt).pack(pady=5)
-        ctk.CTkButton(self.input_tab, text="🚀 Botu Başlat", command=self.run_bot_thread).pack(pady=10)
+        ctk.CTkButton(self.input_tab, text=" input.txt Kaydet", command=self.save_input_txt).pack(pady=5)
+        ctk.CTkButton(self.input_tab, text=" Botu Başlat", command=self.run_bot_thread).pack(pady=10)
 
         self.output_box = ctk.CTkTextbox(self.input_tab, width=800, height=200)
         self.output_box.pack(padx=10, pady=10)
@@ -78,7 +78,7 @@ class BotApp(ctk.CTk):
             ("Data Cleaner", ["python", "data_cleaner.py"]),
             ("Mesaj Gönder", ["python", "sending_message.py"]),
             ("Mesaj Al", ["python", "recieve_message.py"]),
-            ("AI Kontrol", ["python", "checking_ai_api.py"])
+            ("AI Kontrol", ["python", "checking_aı_apı.py"])
         ]
 
         for desc, cmd in steps:
