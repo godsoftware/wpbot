@@ -92,7 +92,7 @@ class BusinessList:
             print(f"✔ Veriler başarıyla kaydedildi: {file_path}")
 
         except Exception as e:
-            print(f"❌ Hata oluştu: {e}")
+            print(f" Hata oluştu: {e}")
 
 
 
@@ -163,28 +163,39 @@ def main():
 
             print(f"Toplam Mağaza Sayısı: {len(listings)}")
 
+            previous_name = None
+
             for index, store in enumerate(listings):
                 try:
                     store.scroll_into_view_if_needed()
-                    store.click(timeout=5000)  # Timeoutları küçültelim
-                    page.wait_for_timeout(1500)  # 5000 yerine 1500 ms bekle
+                    store.click(timeout=10000)
+                    page.wait_for_timeout(2000)
 
-                    try:
-                        name = page.locator('//h1[contains(@class, "DUwDvf")]').inner_text(timeout=500)
-                    except:
-                        name = ""
+                    # Mağaza adı al ve öncekiyle karşılaştır
+                    name_locator = page.locator('//h1[contains(@class, "DUwDvf")]')
+                    name = name_locator.first.inner_text() if name_locator.count() > 0 else ""
 
-                    # TYPE (kategori) çekimi
+                    if name == previous_name or name == "":
+                        print(f"{index + 1}. mağaza atlandı (aynı içerik veya boş ad)")
+                        continue
+
+                    previous_name = name  # Sonraki kontrol için güncelle
+
+                    # TYPE (kategori)
                     try:
-                        type_ = page.locator('button.DkEaL').first.inner_text()
+                        type_locator = page.locator('button.DkEaL')
+                        type_ = type_locator.first.inner_text() if type_locator.count() > 0 else ""
                     except:
                         type_ = ""
 
+                    # Rating (puan)
                     try:
-                        rating = page.locator('div.F7nice span[aria-hidden="true"]').first.inner_text()
-                    except Exception as e:
-                        print(f"Puan çekilemedi: {e}")
+                        rating_locator = page.locator('div.F7nice span[aria-hidden="true"]')
+                        rating = rating_locator.first.inner_text() if rating_locator.count() > 0 else ""
+                    except:
                         rating = ""
+
+                    # Reviews (yorum sayısı)
                     try:
                         reviews = ""
                         spans = page.locator('div.F7nice span')
@@ -193,28 +204,34 @@ def main():
                             if "(" in text and ")" in text:
                                 reviews = ''.join(filter(str.isdigit, text))
                                 break
-                    except Exception as e:
-                        print(f"Yorum sayısı çekilemedi: {e}")
+                    except:
                         reviews = ""
 
-
+                    # Address
                     try:
-                        address = page.locator('//button[@data-item-id="address"]').inner_text()
+                        address_locator = page.locator('//button[@data-item-id="address"]')
+                        address = address_locator.first.inner_text() if address_locator.count() > 0 else ""
                     except:
                         address = ""
 
+                    # Phone
                     try:
-                        phone = page.locator('//button[contains(@data-item-id, "phone:tel:")]').inner_text()
+                        phone_locator = page.locator('//button[contains(@data-item-id, "phone:tel:")]')
+                        phone = phone_locator.first.inner_text() if phone_locator.count() > 0 else ""
                     except:
                         phone = ""
 
+                    # Website
                     try:
-                        website = page.locator('//a[contains(@data-item-id, "authority")]').inner_text()
+                        website_locator = page.locator('//a[contains(@data-item-id, "authority")]')
+                        website = website_locator.first.inner_text() if website_locator.count() > 0 else ""
                     except:
                         website = ""
 
-                    wp_status = ""  # Şu an için boş, istersen WhatsApp kontrolü ekleriz.
+                    # WhatsApp bilgisi şimdilik boş
+                    wp_status = ""
 
+                    # Business nesnesi oluştur ve listeye ekle
                     business = Business(
                         name=name,
                         type=type_,
@@ -230,7 +247,7 @@ def main():
                     print(f"{index + 1}: {name} | {type_} | {rating} | {reviews} | {address} | {phone} | {website}")
 
                 except Exception as e:
-                    print(f'Hata oluştu: {e}')
+                    print(f"{index + 1}. mağazada hata oluştu: {e}")
 
         combined_business_list.save_to_excel('google_maps_combined_data')
 

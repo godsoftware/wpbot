@@ -35,7 +35,7 @@ def update_existing_data(existing_df, new_df):
     return combined_df
 
 # Dosya yolları
-input_file = r'C:\PycharmProjects\whatsappbot\output\google_maps_combined_data.xlsx'
+input_file = r'C:\PycharmProjects\whatsappbot\output\cleaned_data.xlsx'
 output_file = r'C:\PycharmProjects\whatsappbot\output\cleaned_data.xlsx'
 
 # Verileri yükle

@@ -72,6 +72,7 @@ for index, chat in enumerate(chat_boxes):
         print("✅ Tüm mesajlar yüklendi.")
 
         # Mesajları al
+        # Mesajları al
         message_blocks = driver.find_elements(By.XPATH, '//div[@class="copyable-text"]')
         for msg in message_blocks:
             try:
@@ -90,8 +91,8 @@ for index, chat in enumerate(chat_boxes):
                                 sender = "GİDEN"
                         time_only = timestamp.split("]")[0].replace("[", "")
 
-                        # ✅ Sadece GELEN mesajlar işlensin
-                        if sender == "GELEN":
+                        # ✅ Tüm mesajlar işlensin
+                        if sender in ["GELEN", "GİDEN"]:
                             key = f"{number}_{time_only}_{text}"
                             hash_val = hashlib.md5(key.encode()).hexdigest()
                             if hash_val not in previous_hashes:
